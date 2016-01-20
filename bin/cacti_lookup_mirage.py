@@ -33,7 +33,7 @@ dbQuery += 'LEFT JOIN host E ON (A.host_id = E.id) '
 dbQuery += 'WHERE A.id = B.local_data_id ORDER BY B.local_data_id ASC;'
 
 try:
-	results = subprocess.check_output('mysql --user="'+cacti_config_database_username+'" --password="'+cacti_config_database_password+'" --host="'+cacti_config_database_hostname+'" -P'+cacti_config_database_port+' -D '+cacti_config_database_db+' -e "'+dbQuery+'" -B | sed \'s/\t/,/g\'',shell=True)
+	results = subprocess.check_output('mysql --user="'+cacti_config_database_username+'" --password="'+cacti_config_database_password+'" --host="'+cacti_config_database_hostname+'" -P'+cacti_config_database_port+' -D '+cacti_config_database_db+' -e "'+dbQuery+'" -B | sed \'s/,/-/g\' | sed \'s/\t/,/g\'',shell=True)
 except:
 	sys.stderr.write('[cacti_lookup_mirage] failed to run mysql client\n')
 	sys.stderr.write('[cacti_lookup_mirage] mysql --user="..." --password="..." --host="'+cacti_config_database_hostname+'" -P'+cacti_config_database_port+' -D '+cacti_config_database_db+'\n')
